@@ -9,12 +9,54 @@
 #include <Vector.h>
 #include "Adafruit_NeoPixel.h"
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-class Photoresistor;
-class TapeLed;
-class Led;
+class Photoresistor
+{
+public:
+  Photoresistor(int x, int y, int pin) : pin(pin), x(x), y(y)
+  {
+    value = analogRead(pin);
+  }
+  int x = 0;
+  int y = 0;
+  int pin;
+  int value = 0;
+  int updateValue() // get and update value
+  {
+    value = analogRead(pin);
+    return value;
+  }
+};
+
+class Led
+{
+public:
+  Led(int num, uint32_t color = 0xffffff) : num(num), color(color)
+  {
+
+  }
+  int num;
+  uint32_t color;
+
+};
+
+class TapeLed
+{
+public:
+  Vector<Led> leds;
+  TapeLed(int num = 0) : num(num)
+  {
+
+  }
+  int num;
+  
+  void addled(Led led)
+  {
+    leds.push_back(led);
+  }
+};
 int32_t value_leds[NUM_LEDS];
 Photoresistor photoresistors[4] = {Photoresistor(0, 0, A1), Photoresistor(0, 0, A2), Photoresistor(0, 0, A3), Photoresistor(0, 0, A4)};
-TapeLed tapeled[quantity_TapeLed];
+TapeLed tapeled[4];
 void setup() {
 	pinMode(PIN_ON_potention, INPUT);
 	pinMode(PIN_potentiometer, INPUT);
@@ -28,10 +70,10 @@ void setup() {
 	{
 		value_leds[i] = strip.Color(255, 255, 255);
 	}
-    bool flag = True;
+    bool flag = true;
     for (int i = 0; i < Quantity_TapeLed; i++)
     {
-        tapeled[i] = TapeLed(i)
+        tapeled[i] = TapeLed(i);
         if (flag)
         {
             for (int j = 0;j < Quantity_Led; i++)
@@ -117,48 +159,3 @@ bool move_t()
 	Serial.println(digitalRead(PIN_PIR));
 	return pirVal;
 }
-class Photoresistor
-{
-public:
-	Photoresistor(int x, int y, int pin) : pin(pin), x(x), y(y)
-	{
-		value = analogRead(pin);
-	}
-	int x = 0;
-	int y = 0;
-	int pin;
-	int value = 0;
-	int updateValue() // get and update value
-	{
-		value = analogRead(pin);
-		return value;
-	}
-};
-
-class Led
-{
-public:
-	Led(int num, uint32_t color = 0xffffff) : num(num), color(color)
-	{
-
-	}
-	int num;
-	uint32_t color;
-
-};
-
-class TapeLed
-{
-public:
-  vector<Led> leds;
-	TapeLed(int num) : num(num)
-	{
-
-	}
-	int num;
-	
-	void addled(Led led)
-	{
-		leds.push_back(led);
-	}
-};
