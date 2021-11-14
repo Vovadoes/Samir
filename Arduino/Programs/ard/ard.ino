@@ -9,9 +9,9 @@
 #include <Vector.h>
 #include "Adafruit_NeoPixel.h"
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRB + NEO_KHZ800);
-//class Photoresistor;
-//class TapeLed;
-//class Led;
+class Photoresistor;
+class TapeLed;
+class Led;
 int32_t value_leds[NUM_LEDS];
 Photoresistor photoresistors[4] = {Photoresistor(0, 0, A1), Photoresistor(0, 0, A2), Photoresistor(0, 0, A3), Photoresistor(0, 0, A4)};
 TapeLed tapeled[quantity_TapeLed];
